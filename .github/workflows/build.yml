@@ -23,15 +23,14 @@ jobs:
         run: |
           git clone --recursive https://github.com/theos/theos.git "$THEOS"
 
-          if [ ! -d "$THEOS/sdks" ] || [ -z "$(ls -A "$THEOS/sdks" 2>/dev/null)" ]; then
-            rm -rf "$THEOS/sdks"
-            git clone --depth 1 https://github.com/theos/sdks.git "$THEOS/sdks"
-          fi
+          rm -rf "$THEOS/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$THEOS/sdks"
 
       - name: Install ldid
         run: |
           brew install ldid
-          ldid --version
+          command -v ldid
+          test -x "$(command -v ldid)"
 
       - name: Verify project files
         run: |
