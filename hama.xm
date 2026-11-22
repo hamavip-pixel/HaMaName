@@ -5,6 +5,9 @@
 static UIView *badgeView = nil;
 static AVSpeechSynthesizer *sonicSpeech = nil;
 
+// Function declaration - FIX
+static void showOfficialBadge(void);
+
 // SONIC INTRO
 static void showSonicIntro(void) {
 
@@ -117,6 +120,7 @@ static void showSonicIntro(void) {
     );
 }
 
+// ORIGINAL BADGE
 static void showOfficialBadge(void) {
 
     if (badgeView) return;
@@ -209,6 +213,7 @@ static void showOfficialBadge(void) {
     }];
 }
 
+// Constructor
 %ctor {
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC),
