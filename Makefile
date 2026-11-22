@@ -9,11 +9,11 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = DrDev
 
-DrDev_FRAMEWORKS = IOKit UIKit Foundation Security QuartzCore CoreGraphics CoreText AVFoundation Accelerate GLKit SystemConfiguration GameController
-DrDev_LDFLAGS +=
-DrDev_CCFLAGS = -w -std=gnu++14 -fno-rtti -fno-exceptions -DNDEBUG -Wno-module-import-in-extern-c
-DrDev_CFLAGS = -w -fobjc-arc -Wno-deprecated-declarations -Wno-unused-variable -Wno-unused-value
+hama_FRAMEWORKS = IOKit UIKit Foundation Security QuartzCore CoreGraphics CoreText AVFoundation Accelerate GLKit SystemConfiguration GameController
+hama_LDFLAGS +=
+hama_CCFLAGS = -w -std=gnu++14 -fno-rtti -fno-exceptions -DNDEBUG -Wno-module-import-in-extern-c
+hamav_CFLAGS = -w -fobjc-arc -Wno-deprecated-declarations -Wno-unused-variable -Wno-unused-value
 
-DrDev_FILES = DrDev.xm
+hama_FILES = hama.xm
 
 include $(THEOS_MAKE_PATH)/tweak.mk
