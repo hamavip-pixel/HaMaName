@@ -1,9 +1,124 @@
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 static UIView *badgeView = nil;
+static AVSpeechSynthesizer *sonicSpeech = nil;
 
-static void showOfficialBadge() {
+// SONIC INTRO
+static void showSonicIntro(void) {
+
+    UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+
+    if (!mainWindow) {
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        if (windows.count > 0) {
+            mainWindow = windows[0];
+        }
+    }
+
+    if (!mainWindow) return;
+
+    UIView *introView = [[UIView alloc] initWithFrame:mainWindow.bounds];
+    introView.backgroundColor = [UIColor blackColor];
+    introView.alpha = 0;
+    introView.autoresizingMask =
+        UIViewAutoresizingFlexibleWidth |
+        UIViewAutoresizingFlexibleHeight;
+
+    // Main SONIC VIP text
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"SONIC⚡VIP";
+    titleLabel.font = [UIFont systemFontOfSize:35 weight:UIFontWeightHeavy];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.layer.shadowColor = [UIColor whiteColor].CGColor;
+    titleLabel.layer.shadowRadius = 12;
+    titleLabel.layer.shadowOpacity = 0.9;
+    titleLabel.layer.shadowOffset = CGSizeZero;
+    [titleLabel sizeToFit];
+
+    titleLabel.center = CGPointMake(
+        introView.bounds.size.width / 2,
+        introView.bounds.size.height / 2 - 12
+    );
+
+    titleLabel.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+
+    [introView addSubview:titleLabel];
+
+    // Blue subtitle
+    UILabel *subtitleLabel = [[UILabel alloc] init];
+    subtitleLabel.text = @"SONIC ANTIBAN SYSTEM READY";
+    subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightBold];
+    subtitleLabel.textColor =
+        [UIColor colorWithRed:0.20 green:0.58 blue:1.0 alpha:1.0];
+    subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    subtitleLabel.layer.shadowColor =
+        [UIColor colorWithRed:0.10 green:0.45 blue:1.0 alpha:1.0].CGColor;
+    subtitleLabel.layer.shadowRadius = 8;
+    subtitleLabel.layer.shadowOpacity = 0.9;
+    subtitleLabel.layer.shadowOffset = CGSizeZero;
+    [subtitleLabel sizeToFit];
+
+    subtitleLabel.center = CGPointMake(
+        introView.bounds.size.width / 2,
+        CGRectGetMaxY(titleLabel.frame) + 28
+    );
+
+    subtitleLabel.autoresizingMask =
+        UIViewAutoresizingFlexibleLeftMargin |
+        UIViewAutoresizingFlexibleRightMargin |
+        UIViewAutoresizingFlexibleTopMargin |
+        UIViewAutoresizingFlexibleBottomMargin;
+
+    [introView addSubview:subtitleLabel];
+
+    [mainWindow addSubview:introView];
+
+    // Welcome voice
+    sonicSpeech = [[AVSpeechSynthesizer alloc] init];
+
+    AVSpeechUtterance *utterance =
+        [AVSpeechUtterance speechUtteranceWithString:@"Welcome to Sonic VIP"];
+
+    utterance.voice =
+        [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
+
+    utterance.rate = 0.48;
+    utterance.pitchMultiplier = 1.0;
+
+    [sonicSpeech speakUtterance:utterance];
+
+    // Intro entrance
+    [UIView animateWithDuration:0.7 animations:^{
+        introView.alpha = 1.0;
+    }];
+
+    // Fade out after 3 seconds
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC),
+        dispatch_get_main_queue(), ^{
+
+            [UIView animateWithDuration:1.0 animations:^{
+                introView.alpha = 0;
+            } completion:^(BOOL finished) {
+
+                [introView removeFromSuperview];
+
+                // Show original badge
+                showOfficialBadge();
+            }];
+        }
+    );
+}
+
+static void showOfficialBadge(void) {
+
     if (badgeView) return;
 
     UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
@@ -40,7 +155,7 @@ static void showOfficialBadge() {
         [UIColor colorWithRed:0.29 green:0.65 blue:1.0 alpha:1.0].CGColor;
 
     container.layer.borderWidth = 2;
-    container.layer.cornerRadius = 30;
+    container.layer.cornerRadius = 12;
     container.clipsToBounds = NO;
 
     // Blue glow
@@ -61,7 +176,7 @@ static void showOfficialBadge() {
     [container addSubview:label];
 
     CGFloat centerX = mainWindow.bounds.size.width / 2;
-    CGFloat topY = 55;
+    CGFloat topY = 75;
 
     container.center = CGPointMake(centerX, topY);
 
@@ -98,7 +213,7 @@ static void showOfficialBadge() {
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC),
         dispatch_get_main_queue(), ^{
-            showOfficialBadge();
+            showSonicIntro();
         }
     );
 }
