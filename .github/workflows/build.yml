@@ -28,10 +28,15 @@ jobs:
             git clone --depth 1 https://github.com/theos/sdks.git "$THEOS/sdks"
           fi
 
+      - name: Install ldid
+        run: |
+          brew install ldid
+          ldid --version
+
       - name: Verify project files
         run: |
-          test -f Makefile || { echo "Makefile missing"; exit 1; }
-          test -f hama.xm || { echo "hama.xm missing"; exit 1; }
+          test -f Makefile || { echo "ERROR: Makefile missing"; exit 1; }
+          test -f hama.xm || { echo "ERROR: hama.xm missing"; exit 1; }
 
       - name: Build dylib
         run: |
@@ -55,7 +60,7 @@ jobs:
 
           cp "$DYLIB_PATH" artifacts/HaMaName.dylib
 
-          echo "Build successful!"
+          echo "BUILD SUCCESSFUL!"
           ls -lh artifacts/HaMaName.dylib
 
       - name: Upload HaMaName dylib
