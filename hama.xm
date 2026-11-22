@@ -8,7 +8,7 @@ static AVSpeechSynthesizer *sonicSpeech = nil;
 // Function declaration - FIX
 static void showOfficialBadge(void);
 
-// SONIC INTRO
+// HAMA INTRO
 static void showSonicIntro(void) {
 
     UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
@@ -31,7 +31,7 @@ static void showSonicIntro(void) {
 
     // Main SONIC VIP text
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"SONIC⚡VIP";
+    titleLabel.text = @"HAMA⚡VIP";
     titleLabel.font = [UIFont systemFontOfSize:35 weight:UIFontWeightHeavy];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -56,7 +56,7 @@ static void showSonicIntro(void) {
 
     // Blue subtitle
     UILabel *subtitleLabel = [[UILabel alloc] init];
-    subtitleLabel.text = @"SONIC ANTIBAN SYSTEM READY";
+    subtitleLabel.text = @"HAMA ANTIBAN SYSTEM READY";
     subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightBold];
     subtitleLabel.textColor =
         [UIColor colorWithRed:0.20 green:0.58 blue:1.0 alpha:1.0];
@@ -87,7 +87,7 @@ static void showSonicIntro(void) {
     sonicSpeech = [[AVSpeechSynthesizer alloc] init];
 
     AVSpeechUtterance *utterance =
-        [AVSpeechUtterance speechUtteranceWithString:@"Welcome to Sonic VIP"];
+        [AVSpeechUtterance speechUtteranceWithString:@"Welcome to HAMA VIP"];
 
     utterance.voice =
         [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
@@ -137,7 +137,7 @@ static void showOfficialBadge(void) {
     if (!mainWindow) return;
 
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"SONIC⚡VIP";
+    label.text = @"HAMA⚡VIP";
     label.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     label.textColor = [UIColor whiteColor];
     label.backgroundColor = [UIColor clearColor];
@@ -151,7 +151,7 @@ static void showOfficialBadge(void) {
 
     UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, boxWidth, boxHeight)];
 
-    // Background behind SONIC VIP
+    // Background behind HAMA VIP
     container.backgroundColor =
         [UIColor colorWithRed:0.02 green:0.10 blue:0.24 alpha:0.92];
 
