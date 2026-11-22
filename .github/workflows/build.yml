@@ -22,31 +22,43 @@ jobs:
       - name: Install Theos and SDKs
         run: |
           git clone --recursive https://github.com/theos/theos.git "$THEOS"
-          git clone --depth 1 https://github.com/theos/sdks.git "$THEOS/sdks"
 
-      - name: Build dylib only
+          if [ ! -d "$THEOS/sdks" ] || [ -z "$(ls -A "$THEOS/sdks" 2>/dev/null)" ]; then
+            rm -rf "$THEOS/sdks"
+            git clone --depth 1 https://github.com/theos/sdks.git "$THEOS/sdks"
+          fi
+
+      - name: Verify project files
         run: |
-          make clean THEOS="$THEOS"
-          make THEOS="$THEOS" FINALPACKAGE=1
+          test -f Makefile || { echo "Makefile missing"; exit 1; }
+          test -f hama.xm || { echo "hama.xm missing"; exit 1; }
+
+      - name: Build dylib
+        run: |
+          make clean
+          make FINALPACKAGE=1
 
       - name: Prepare dylib
         shell: bash
         run: |
           set -euo pipefail
+
           mkdir -p artifacts
 
           DYLIB_PATH="$(find .theos -type f -name 'HaMaName.dylib' -print -quit)"
 
           if [ -z "$DYLIB_PATH" ]; then
             echo "ERROR: HaMaName.dylib was not produced!"
-            find .theos -maxdepth 6 -type f | sort || true
+            find .theos -type f || true
             exit 1
           fi
 
           cp "$DYLIB_PATH" artifacts/HaMaName.dylib
+
+          echo "Build successful!"
           ls -lh artifacts/HaMaName.dylib
 
-      - name: Upload dylib
+      - name: Upload HaMaName dylib
         uses: actions/upload-artifact@v4
         with:
           name: HaMaName
